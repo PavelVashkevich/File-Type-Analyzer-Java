@@ -1,4 +1,4 @@
-package analyzer;
+package analyzer.algorithms;
 
 public interface SearchAlgorithm {
 

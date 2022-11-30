@@ -1,5 +1,7 @@
 package analyzer;
 
+import analyzer.algorithms.SearchAlgorithm;
+
 public class SubstringSearcher {
     private SearchAlgorithm searchAlgorithm;
 

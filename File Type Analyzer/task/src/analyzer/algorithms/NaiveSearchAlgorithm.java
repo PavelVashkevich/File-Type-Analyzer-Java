@@ -1,49 +1,53 @@
-package analyzer;
+package analyzer.algorithms;
 
 /**
- * Knuth-Morris-Pratt algorithm.
+ * Naive substring search algorithm.
  * @author PavelVashkevich
  * */
-public class KMPSearchAlgorithm implements SearchAlgorithm {
-    private static KMPSearchAlgorithm instance;
+public class NaiveSearchAlgorithm implements SearchAlgorithm {
+    private static NaiveSearchAlgorithm instance;
 
-    private KMPSearchAlgorithm() {}
+    private NaiveSearchAlgorithm() {}
 
-    public static KMPSearchAlgorithm getInstance() {
+    public static NaiveSearchAlgorithm getInstance() {
         if (instance == null) {
-            instance = new KMPSearchAlgorithm();
+            instance = new NaiveSearchAlgorithm();
         }
         return instance;
     }
 
+    /**
+     * Compare every text character with a pattern character with a one symbol shift
+     * List index position where pattern match with a text substring
+     * */
+    // izmenit na sravnenie cherez substringi
     @Override
     public boolean contains(char[] text, char[] pattern) {
         if (text.length < pattern.length) {
             return false;
         }
-        int[] prefixFunction = PrefixFunctionCalculator.getPrefixFunction(pattern);
-        int shift = -1;
+
         int patternCharIndex = 0;
         boolean intermediateSymbolFound = false;
+        boolean result = false;
         for (int textCharIndex = 0; textCharIndex < text.length; textCharIndex++) {
             if (text[textCharIndex] == pattern[patternCharIndex]) {
                 if (intermediateSymbolFound && patternCharIndex == pattern.length - 1) {
+                    result = true;
                     System.out.println("Pattern found at index: " + (textCharIndex - patternCharIndex));
-                    return true;
+                    textCharIndex = textCharIndex  - patternCharIndex;
+                    patternCharIndex = 0;
+                    intermediateSymbolFound = false;
                 } else {
                     intermediateSymbolFound = true;
                     patternCharIndex++;
                 }
             } else {
-                if (textCharIndex == text.length - 1) {
-                    return false;
-                }
                 intermediateSymbolFound = false;
-                shift += patternCharIndex - prefixFunction[patternCharIndex - 1];
-                textCharIndex = shift;
+                textCharIndex = textCharIndex - patternCharIndex;
                 patternCharIndex = 0;
             }
         }
-        return false;
+        return result;
     }
 }

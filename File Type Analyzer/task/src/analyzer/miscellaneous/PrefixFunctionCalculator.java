@@ -1,4 +1,4 @@
-package analyzer;
+package analyzer.miscellaneous;
 
 public class PrefixFunctionCalculator {
 

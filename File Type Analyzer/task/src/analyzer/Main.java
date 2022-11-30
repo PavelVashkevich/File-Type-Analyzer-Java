@@ -2,11 +2,7 @@ package analyzer;
 
 public class Main {
     public static void main(String[] args)  {
-        String algorithm = args[0];
-        String fileName = args[1];
-        String pattern = args[2];
-        String fileType = args[3];
-        FileTypeAnalyzer fta = new FileTypeAnalyzer(algorithm, fileName, pattern, fileType);
+        FileTypeAnalyzer fta = new FileTypeAnalyzer(args[0], args[1], args[2]);
         fta.checkFileType();
     }
 }

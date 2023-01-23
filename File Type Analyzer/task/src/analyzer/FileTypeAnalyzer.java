@@ -1,22 +1,14 @@
 package analyzer;
 
-import analyzer.algorithms.KMPSearchAlgorithm;
-import analyzer.algorithms.NaiveSearchAlgorithm;
-import analyzer.algorithms.SearchAlgorithm;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 public class FileTypeAnalyzer {
     private final String directoryPath;
@@ -36,10 +28,10 @@ public class FileTypeAnalyzer {
             List<Callable<String>> fileTypeAnalyzeWorkers = new ArrayList<>();
             File directory = new File(directoryPath);
             if (!directory.exists() || !directory.isDirectory()) {
-                System.out.println("Error");
+                System.out.println("Error. Directory doest not exist or type is not directory");
                 return;
             }
-            for (File fileToAnalyze : directory.listFiles()) {
+            for (File fileToAnalyze : Objects.requireNonNull(directory.listFiles())) {
                 fileTypeAnalyzeWorkers.add(new FileTypeAnalyzeWorker(fileToAnalyze, fileTypePattern, fileType));
             }
             List<Future<String>> fileTypeAnalyzeResults = executor.invokeAll(fileTypeAnalyzeWorkers);
@@ -48,7 +40,7 @@ public class FileTypeAnalyzer {
             }
             executor.shutdown();
         } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

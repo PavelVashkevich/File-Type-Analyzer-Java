@@ -20,7 +20,6 @@ public class NaiveSearchAlgorithm implements SearchAlgorithm {
      * Compare every text character with a pattern character with a one symbol shift
      * List index position where pattern match with a text substring
      * */
-    // izmenit na sravnenie cherez substringi
     @Override
     public boolean contains(char[] text, char[] pattern) {
         if (text.length < pattern.length) {

@@ -4,14 +4,16 @@ import analyzer.miscellaneous.PrefixFunctionCalculator;
 
 /**
  * Knuth-Morris-Pratt algorithm.
+ *
  * @author PavelVashkevich
- * */
+ */
 public class KMPSearchAlgorithm implements SearchAlgorithm {
     private static KMPSearchAlgorithm instance;
 
-    private KMPSearchAlgorithm() {}
+    private KMPSearchAlgorithm() {
+    }
 
-    public static KMPSearchAlgorithm getInstance() {
+    public static synchronized KMPSearchAlgorithm getInstance() {
         if (instance == null) {
             instance = new KMPSearchAlgorithm();
         }
@@ -19,31 +21,40 @@ public class KMPSearchAlgorithm implements SearchAlgorithm {
     }
 
     @Override
-    public boolean contains(char[] text, char[] pattern) {
+    public synchronized boolean contains(char[] text, char[] pattern) {
         if (text.length < pattern.length) {
             return false;
         }
-        int[] prefixFunction = PrefixFunctionCalculator.getPrefixFunction(pattern);
-        int shift = -1;
-        int patternCharIndex = 0;
+        int shift = 0;
         boolean intermediateSymbolFound = false;
-        for (int textCharIndex = 0; textCharIndex < text.length; textCharIndex++) {
-            if (text[textCharIndex] == pattern[patternCharIndex]) {
-                if (intermediateSymbolFound && patternCharIndex == pattern.length - 1) {
-//                    System.out.println("Pattern found at index: " + (textCharIndex - patternCharIndex));
+        int[] prefixFunction = PrefixFunctionCalculator.getPrefixFunction(pattern);
+        char[] intermediateCorrespondingText = new char[pattern.length];
+        System.arraycopy(text, 0, intermediateCorrespondingText, 0, pattern.length);
+        int indexInIntermediateCorrespondingText = 0;
+        int patternIndex = 0;
+        int textIndex = 0;
+        while (textIndex < text.length) {
+            if (intermediateCorrespondingText[indexInIntermediateCorrespondingText] == pattern[patternIndex]) {
+                if (intermediateSymbolFound && patternIndex == pattern.length - 1) {
                     return true;
                 } else {
                     intermediateSymbolFound = true;
-                    patternCharIndex++;
+                    patternIndex++;
+                    textIndex++;
+                    indexInIntermediateCorrespondingText++;
                 }
             } else {
-                if (textCharIndex == text.length - 1) {
+                intermediateSymbolFound = false;
+                shift += patternIndex == 0 ? 1 : (patternIndex) - prefixFunction[patternIndex - 1];
+                if (shift + pattern.length > text.length) {
                     return false;
                 }
-                intermediateSymbolFound = false;
-                shift += patternCharIndex >= 1 ? patternCharIndex - prefixFunction[patternCharIndex - 1] : 0;
-                textCharIndex = shift >= 1 ? shift : textCharIndex;
-                patternCharIndex = 0;
+                System.arraycopy(text, shift, intermediateCorrespondingText, 0, pattern.length);
+                indexInIntermediateCorrespondingText = Math.max((textIndex - shift), 0);
+                patternIndex = Math.max((textIndex - shift), 0);
+                if (patternIndex == 0 && shift == 1) {
+                    textIndex++;
+                }
             }
         }
         return false;

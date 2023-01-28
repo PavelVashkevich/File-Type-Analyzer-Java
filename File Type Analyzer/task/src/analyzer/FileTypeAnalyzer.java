@@ -1,6 +1,11 @@
 package analyzer;
 
+import analyzer.datatypes.FileDescriptor;
+import analyzer.miscellaneous.MergeSort;
+
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -12,14 +17,48 @@ import java.util.concurrent.Future;
 
 public class FileTypeAnalyzer {
     private final String directoryPath;
-    private final String fileTypePattern;
-    private final String fileType;
     private final static int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors();
+    private FileDescriptor[] fileDescriptors;
+    private static final int PRIORITY_INDEX = 0;
+    private static final int PATTERN_INDEX = 1;
+    private static final int FILETYPE_INDEX = 2;
 
-    public FileTypeAnalyzer(String directoryPath, String fileTypePattern, String fileType) {
+
+    public FileTypeAnalyzer(String directoryPath, String databasePath) {
         this.directoryPath = directoryPath;
-        this.fileTypePattern = fileTypePattern;
-        this.fileType = fileType;
+        this.fileDescriptors = parseDatabase(databasePath);
+        MergeSort.sort(fileDescriptors);
+    }
+
+    private FileDescriptor[] parseDatabase(String databasePath) {
+        File databaseFile = new File(databasePath);
+        if (!databaseFile.isFile()) {
+            throw new RuntimeException("File " + databaseFile + " is not a file type");
+        }
+        try {
+            String fileText = Files.readString(databaseFile.toPath());
+            System.out.println("readed line: " + fileText);
+            if (fileText.isEmpty() || fileText.isBlank()) {
+                throw new RuntimeException("Pattern database is empty");
+            }
+            String[] dbEntries = fileText.split("\r?\n");
+            fileDescriptors = new FileDescriptor[dbEntries.length];
+            for (int i = 0; i < fileDescriptors.length; i++) {
+                String[] dbEntry = dbEntries[i].split(";");
+                fileDescriptors[i] = initFileDescriptor(dbEntry);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Could not read " + databaseFile + " into memory");
+        }
+        return fileDescriptors;
+    }
+
+    private FileDescriptor initFileDescriptor(String[] dbEntry) {
+        FileDescriptor fileDescriptor = new FileDescriptor();
+        fileDescriptor.setPriority(Integer.parseInt(dbEntry[PRIORITY_INDEX]));
+        fileDescriptor.setPattern(dbEntry[PATTERN_INDEX].replace("\"", ""));
+        fileDescriptor.setFileType(dbEntry[FILETYPE_INDEX].replace("\"", ""));
+        return fileDescriptor;
     }
 
     public void checkFileType() {
@@ -32,7 +71,7 @@ public class FileTypeAnalyzer {
                 return;
             }
             for (File fileToAnalyze : Objects.requireNonNull(directory.listFiles())) {
-                fileTypeAnalyzeWorkers.add(new FileTypeAnalyzeWorker(fileToAnalyze, fileTypePattern, fileType));
+                fileTypeAnalyzeWorkers.add(new FileTypeAnalyzeWorker(fileToAnalyze, fileDescriptors));
             }
             List<Future<String>> fileTypeAnalyzeResults = executor.invokeAll(fileTypeAnalyzeWorkers);
             for (Future<String> fileTypeAnalyzeResult : fileTypeAnalyzeResults) {

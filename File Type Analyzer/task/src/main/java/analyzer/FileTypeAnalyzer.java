@@ -1,7 +1,9 @@
-package analyzer;
+package main.java.analyzer;
 
-import analyzer.datatypes.FileDescriptor;
-import analyzer.miscellaneous.MergeSort;
+import main.java.analyzer.algorithms.SearchAlgorithm;
+import main.java.analyzer.datatypes.FileDescriptor;
+import main.java.analyzer.datatypes.UserInput;
+import main.java.analyzer.miscellaneous.MergeSort;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,14 +21,17 @@ public class FileTypeAnalyzer {
     private final String directoryPath;
     private final static int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors();
     private FileDescriptor[] fileDescriptors;
+    private final SearchAlgorithm searchAlgorithm;
     private static final int PRIORITY_INDEX = 0;
     private static final int PATTERN_INDEX = 1;
     private static final int FILETYPE_INDEX = 2;
 
 
-    public FileTypeAnalyzer(String directoryPath, String databasePath) {
-        this.directoryPath = directoryPath;
-        this.fileDescriptors = parseDatabase(databasePath);
+
+    public FileTypeAnalyzer(UserInput userInput) {
+        this.directoryPath = userInput.getTestFilesDirectoryPath();
+        this.fileDescriptors = parseDatabase(userInput.getPatternDb());
+        this.searchAlgorithm = userInput.getAlgorithm();
         MergeSort.sort(fileDescriptors);
     }
 
@@ -71,7 +76,7 @@ public class FileTypeAnalyzer {
                 return;
             }
             for (File fileToAnalyze : Objects.requireNonNull(directory.listFiles())) {
-                fileTypeAnalyzeWorkers.add(new FileTypeAnalyzeWorker(fileToAnalyze, fileDescriptors));
+                fileTypeAnalyzeWorkers.add(new FileTypeAnalyzeWorker(fileToAnalyze, fileDescriptors, searchAlgorithm));
             }
             List<Future<String>> fileTypeAnalyzeResults = executor.invokeAll(fileTypeAnalyzeWorkers);
             for (Future<String> fileTypeAnalyzeResult : fileTypeAnalyzeResults) {

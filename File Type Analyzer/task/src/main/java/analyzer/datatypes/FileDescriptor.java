@@ -1,4 +1,4 @@
-package analyzer.datatypes;
+package main.java.analyzer.datatypes;
 
 public class FileDescriptor{
 

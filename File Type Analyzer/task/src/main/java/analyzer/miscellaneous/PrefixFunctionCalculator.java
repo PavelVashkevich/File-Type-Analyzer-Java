@@ -1,4 +1,4 @@
-package analyzer.miscellaneous;
+package main.java.analyzer.miscellaneous;
 
 public class PrefixFunctionCalculator {
 

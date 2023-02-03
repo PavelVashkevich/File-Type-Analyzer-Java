@@ -1,4 +1,4 @@
-package analyzer.algorithms;
+package main.java.analyzer.algorithms;
 
 public interface SearchAlgorithm {
 

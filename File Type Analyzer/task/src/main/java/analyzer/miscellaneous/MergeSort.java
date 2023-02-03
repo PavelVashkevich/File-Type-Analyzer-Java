@@ -1,6 +1,6 @@
-package analyzer.miscellaneous;
+package main.java.analyzer.miscellaneous;
 
-import analyzer.datatypes.FileDescriptor;
+import main.java.analyzer.datatypes.FileDescriptor;
 
 import java.util.Arrays;
 import java.util.Objects;

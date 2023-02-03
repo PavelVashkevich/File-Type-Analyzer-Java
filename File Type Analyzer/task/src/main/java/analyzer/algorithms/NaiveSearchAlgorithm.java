@@ -1,7 +1,8 @@
-package analyzer.algorithms;
+package main.java.analyzer.algorithms;
 
 /**
  * Naive substring search algorithm.
+ *
  * @author PavelVashkevich
  * */
 public class NaiveSearchAlgorithm implements SearchAlgorithm {

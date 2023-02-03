@@ -1,15 +1,20 @@
-package analyzer.algorithms;
+package main.java.analyzer.algorithms;
 
-public class RobinKarpAlgorithm implements SearchAlgorithm {
+/**
+ * Robin-Karp algorithm.
+ *
+ * @author PavelVashkevich
+ */
+public class RobinKarpSearchAlgorithm implements SearchAlgorithm {
 
-    private static RobinKarpAlgorithm instance;
+    private static RobinKarpSearchAlgorithm instance;
     private static final int a = 3;
     private static final int q = 13;
 
 
-    public static synchronized RobinKarpAlgorithm getInstance() {
+    public static synchronized RobinKarpSearchAlgorithm getInstance() {
         if (instance == null) {
-            instance = new RobinKarpAlgorithm();
+            instance = new RobinKarpSearchAlgorithm();
         }
         return instance;
     }

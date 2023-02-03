@@ -1,8 +1,8 @@
-package analyzer;
+package main.java.analyzer;
 
-import analyzer.algorithms.KMPSearchAlgorithm;
-import analyzer.datatypes.FileDescriptor;
-import analyzer.miscellaneous.MessageResourceBundler;
+import main.java.analyzer.algorithms.SearchAlgorithm;
+import main.java.analyzer.datatypes.FileDescriptor;
+import main.java.analyzer.miscellaneous.MessageResourceBundler;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,16 +13,18 @@ import java.util.concurrent.Callable;
 public class FileTypeAnalyzeWorker implements Callable<String> {
     private final File file;
     private final FileDescriptor[] fileDescriptors;
+    private final SearchAlgorithm searchAlgorithm;
 
-    public FileTypeAnalyzeWorker(File file, FileDescriptor[] fileDescriptors) {
+    public FileTypeAnalyzeWorker(File file, FileDescriptor[] fileDescriptors, SearchAlgorithm searchAlgorithm) {
         this.file = file;
         this.fileDescriptors = fileDescriptors;
+        this.searchAlgorithm = searchAlgorithm;
     }
 
     @Override
     public String call() {
         SubstringSearcher substringSearcher = new SubstringSearcher();
-        substringSearcher.setSearchAlgorithm(KMPSearchAlgorithm.getInstance());
+        substringSearcher.setSearchAlgorithm(this.searchAlgorithm);
         try (Scanner scanner = new Scanner(new FileInputStream(file))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -33,9 +35,8 @@ public class FileTypeAnalyzeWorker implements Callable<String> {
                 }
             }
         } catch (FileNotFoundException e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException("File " + file + " was not found");
         }
         return String.format("%s: %s", file.getName(), MessageResourceBundler.UNKNOWN_FILE_TYPE);
-
     }
 }

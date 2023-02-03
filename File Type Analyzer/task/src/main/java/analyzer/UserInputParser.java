@@ -1,8 +1,8 @@
-package analyzer;
+package main.java.analyzer;
 
-import analyzer.datatypes.UserInput;
-import analyzer.miscellaneous.MessageResourceBundler;
-import analyzer.validators.InputAlgorithm;
+import main.java.analyzer.datatypes.UserInput;
+import main.java.analyzer.miscellaneous.MessageResourceBundler;
+import main.java.analyzer.validators.InputAlgorithm;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 
@@ -12,10 +12,10 @@ public class UserInputParser {
     private String testFilesDirectoryPath;
     @Parameter(names = "--db", description = "Path to the db file with patterns")
     private String patternDBfile;
-    @Parameter(names = "--alg", description = "Algorithms to use: naive, robin-karp, knuth-morris-pratt ",
+    @Parameter(names = "--alg", description = "Algorithms to use: naive, robin-karp, knuth-morris-pratt",
             validateWith = InputAlgorithm.class)
     private String algorithm;
-    private static final String PROGRAM_NAME = "File type analyzer";
+
 
     public UserInput parseUserCliInput(String[] userCliInput) {
         if (userCliInput.length < 3) {

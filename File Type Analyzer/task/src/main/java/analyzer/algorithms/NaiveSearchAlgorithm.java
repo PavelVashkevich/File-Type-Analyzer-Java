@@ -34,7 +34,6 @@ public class NaiveSearchAlgorithm implements SearchAlgorithm {
             if (text[textCharIndex] == pattern[patternCharIndex]) {
                 if (intermediateSymbolFound && patternCharIndex == pattern.length - 1) {
                     result = true;
-                    System.out.println("Pattern found at index: " + (textCharIndex - patternCharIndex));
                     textCharIndex = textCharIndex  - patternCharIndex;
                     patternCharIndex = 0;
                     intermediateSymbolFound = false;

@@ -42,7 +42,6 @@ public class FileTypeAnalyzer {
         }
         try {
             String fileText = Files.readString(databaseFile.toPath());
-            System.out.println("readed line: " + fileText);
             if (fileText.isEmpty() || fileText.isBlank()) {
                 throw new RuntimeException("Pattern database is empty");
             }
@@ -72,8 +71,7 @@ public class FileTypeAnalyzer {
             List<Callable<String>> fileTypeAnalyzeWorkers = new ArrayList<>();
             File directory = new File(directoryPath);
             if (!directory.exists() || !directory.isDirectory()) {
-                System.out.println("Error. Directory doest not exist or type is not directory");
-                return;
+                throw new RuntimeException("Error. Directory doest not exist or type is not directory");
             }
             for (File fileToAnalyze : Objects.requireNonNull(directory.listFiles())) {
                 fileTypeAnalyzeWorkers.add(new FileTypeAnalyzeWorker(fileToAnalyze, fileDescriptors, searchAlgorithm));

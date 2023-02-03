@@ -26,11 +26,15 @@ public class FileTypeAnalyzeWorker implements Callable<String> {
         SubstringSearcher substringSearcher = new SubstringSearcher();
         substringSearcher.setSearchAlgorithm(this.searchAlgorithm);
         try (Scanner scanner = new Scanner(new FileInputStream(file))) {
+            long timeBeforeSearchStart = System.nanoTime();
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 for (int i = fileDescriptors.length - 1; i >= 0; i--) {
                     if (substringSearcher.textContainsPattern(line, fileDescriptors[i].getPattern())) {
-                        return String.format("%s: %s", file.getName(), fileDescriptors[i].getFileType());
+                        long timeAfterSearchStart = System.nanoTime();
+                        double elapsedTimeInSeconds = (double) (timeAfterSearchStart - timeBeforeSearchStart) / 1_000_000_000;
+                        return String.format("%s: %s. It took %.3f", file.getName(),
+                                fileDescriptors[i].getFileType(), elapsedTimeInSeconds);
                     }
                 }
             }

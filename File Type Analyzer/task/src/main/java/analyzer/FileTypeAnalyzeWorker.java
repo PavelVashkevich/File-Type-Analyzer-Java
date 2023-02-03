@@ -33,7 +33,7 @@ public class FileTypeAnalyzeWorker implements Callable<String> {
                     if (substringSearcher.textContainsPattern(line, fileDescriptors[i].getPattern())) {
                         long timeAfterSearchStart = System.nanoTime();
                         double elapsedTimeInSeconds = (double) (timeAfterSearchStart - timeBeforeSearchStart) / 1_000_000_000;
-                        return String.format("%s: %s. It took %.3f", file.getName(),
+                        return String.format("%s: %s. It took %.3f seconds", file.getName(),
                                 fileDescriptors[i].getFileType(), elapsedTimeInSeconds);
                     }
                 }

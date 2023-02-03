@@ -39,7 +39,6 @@ public class RobinKarpSearchAlgorithm implements SearchAlgorithm {
         int nextIndex = text.length - substring.length - 1;
         int previousIndex = text.length - 1;
         int subtractionIndex = 1;
-        // testy jeste raz bez -1
         while (nextIndex >= 0) {
             System.arraycopy(text, text.length - pattern.length - subtractionIndex, substring, 0, substring.length);
             intermediateHash = calculateRollingHash(text, nextIndex, previousIndex, intermediateHash);

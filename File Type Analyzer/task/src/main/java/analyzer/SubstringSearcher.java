@@ -1,6 +1,6 @@
-package main.java.analyzer;
+package analyzer;
 
-import main.java.analyzer.algorithms.SearchAlgorithm;
+import analyzer.algorithms.SearchAlgorithm;
 
 public class SubstringSearcher {
     private SearchAlgorithm searchAlgorithm;

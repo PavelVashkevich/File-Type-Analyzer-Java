@@ -1,6 +1,6 @@
-package main.java.analyzer;
+package analyzer;
 
-import main.java.analyzer.datatypes.UserInput;
+import analyzer.datatypes.UserInput;
 
 import java.io.File;
 

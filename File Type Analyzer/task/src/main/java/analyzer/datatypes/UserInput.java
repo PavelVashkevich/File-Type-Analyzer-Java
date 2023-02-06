@@ -1,9 +1,9 @@
-package main.java.analyzer.datatypes;
+package analyzer.datatypes;
 
-import main.java.analyzer.algorithms.KMPSearchAlgorithm;
-import main.java.analyzer.algorithms.NaiveSearchAlgorithm;
-import main.java.analyzer.algorithms.RobinKarpSearchAlgorithm;
-import main.java.analyzer.algorithms.SearchAlgorithm;
+import analyzer.algorithms.KMPSearchAlgorithm;
+import analyzer.algorithms.NaiveSearchAlgorithm;
+import analyzer.algorithms.RobinKarpSearchAlgorithm;
+import analyzer.algorithms.SearchAlgorithm;
 
 public class UserInput {
     private String testFilesDirectoryPath;

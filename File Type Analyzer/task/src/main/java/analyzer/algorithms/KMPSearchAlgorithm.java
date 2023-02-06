@@ -1,6 +1,6 @@
-package main.java.analyzer.algorithms;
+package analyzer.algorithms;
 
-import main.java.analyzer.miscellaneous.PrefixFunctionCalculator;
+import analyzer.miscellaneous.PrefixFunctionCalculator;
 
 /**
  * Knuth-Morris-Pratt algorithm.

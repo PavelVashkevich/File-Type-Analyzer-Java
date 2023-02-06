@@ -1,9 +1,9 @@
-package main.java.analyzer;
+package analyzer;
 
-import main.java.analyzer.algorithms.SearchAlgorithm;
-import main.java.analyzer.datatypes.FileDescriptor;
-import main.java.analyzer.datatypes.UserInput;
-import main.java.analyzer.miscellaneous.MergeSort;
+import analyzer.algorithms.SearchAlgorithm;
+import analyzer.datatypes.FileDescriptor;
+import analyzer.datatypes.UserInput;
+import analyzer.miscellaneous.MergeSort;
 
 import java.io.File;
 import java.io.IOException;

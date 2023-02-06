@@ -1,8 +1,8 @@
-package main.java.analyzer;
+package analyzer;
 
-import main.java.analyzer.algorithms.SearchAlgorithm;
-import main.java.analyzer.datatypes.FileDescriptor;
-import main.java.analyzer.miscellaneous.MessageResourceBundler;
+import analyzer.algorithms.SearchAlgorithm;
+import analyzer.datatypes.FileDescriptor;
+import analyzer.miscellaneous.MessageResourceBundler;
 
 import java.io.File;
 import java.io.FileInputStream;

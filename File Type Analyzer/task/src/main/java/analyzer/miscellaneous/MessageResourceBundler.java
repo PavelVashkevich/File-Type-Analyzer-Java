@@ -1,4 +1,4 @@
-package main.java.analyzer.miscellaneous;
+package analyzer.miscellaneous;
 
 public class MessageResourceBundler {
 

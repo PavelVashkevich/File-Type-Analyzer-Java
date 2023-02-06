@@ -1,4 +1,4 @@
-package main.java.analyzer.algorithms;
+package analyzer.algorithms;
 
 /**
  * Naive substring search algorithm.

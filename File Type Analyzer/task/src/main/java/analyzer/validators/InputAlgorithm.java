@@ -1,6 +1,6 @@
-package main.java.analyzer.validators;
+package analyzer.validators;
 
-import main.java.analyzer.miscellaneous.MessageResourceBundler;
+import analyzer.miscellaneous.MessageResourceBundler;
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.ParameterException;
 

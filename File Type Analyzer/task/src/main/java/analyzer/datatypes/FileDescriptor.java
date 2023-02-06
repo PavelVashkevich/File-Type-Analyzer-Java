@@ -1,5 +1,7 @@
 package analyzer.datatypes;
 
+import java.util.Objects;
+
 public class FileDescriptor{
 
     private int priority;
@@ -47,5 +49,18 @@ public class FileDescriptor{
                 ", pattern='" + pattern + '\'' +
                 ", fileType='" + fileType + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        FileDescriptor that = (FileDescriptor) o;
+        return priority == that.priority && Objects.equals(pattern, that.pattern) && Objects.equals(fileType, that.fileType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(priority, pattern, fileType);
     }
 }

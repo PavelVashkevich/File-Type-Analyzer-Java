@@ -2,7 +2,7 @@ package analyzer;
 
 import analyzer.datatypes.UserInput;
 import analyzer.miscellaneous.MessageResourceBundler;
-import main.java.analyzer.validators.InputAlgorithm;
+import analyzer.validators.InputAlgorithm;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 

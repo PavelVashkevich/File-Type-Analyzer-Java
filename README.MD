@@ -3,7 +3,7 @@ This small tool extracts information about file to determine the type of the fil
 Note: To use this application use JCommander external library to parse cli arguments. Library should be added to your cloned project to execute this tool.
 
 #### Example of command:
-``java --in Main test_files --db patterns.db --alg robin-karp``
+``java Main --in test_files --db patterns.db --alg robin-karp``
 
 User should specify: \
 --**in** - Path to directory with files to analyze. \
